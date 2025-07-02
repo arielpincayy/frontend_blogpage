@@ -5,10 +5,12 @@ import React from 'react';
 import { Button } from './ui/button';
 import { useState } from "react";
 import { Menu } from "lucide-react"; // ícono de hamburguesa
+import { useUser } from './context/AuthContext';
 
 export default function MenuBar() {
 
     const [menuOpen, setMenuOpen] = useState(false);
+    const {user, setUser} = useUser();
     
     return(
         <>
@@ -29,9 +31,14 @@ export default function MenuBar() {
   
                 {/* DESKTOP LINKS */}
                 <div className="hidden md:flex items-center space-x-4">
+                  {user?
+                  <Link href="/profile" className="text-lg font-medium text-gray-900 hover:text-gray-600">
+                    Me
+                  </Link>:
                   <Link href="/signin" className="text-lg font-medium text-gray-900 hover:text-gray-600">
                     Sign in
                   </Link>
+                  }
                   <Link href="/get-started" className="text-lg font-medium text-gray-900 hover:text-gray-600">
                     Get started
                   </Link>
@@ -52,9 +59,14 @@ export default function MenuBar() {
               {/* MOBILE MENU DROPDOWN */}
               {menuOpen && (
                 <div className="mt-4 flex flex-col items-center space-y-4 md:hidden">
+                  {user?
+                  <Link href="/profile" className="text-lg font-medium text-gray-900 hover:text-gray-600">
+                    Me
+                  </Link>:
                   <Link href="/signin" className="text-lg font-medium text-gray-900 hover:text-gray-600">
                     Sign in
                   </Link>
+                  }
                   <Link href="/get-started" className="text-lg font-medium text-gray-900 hover:text-gray-600">
                     Get started
                   </Link>

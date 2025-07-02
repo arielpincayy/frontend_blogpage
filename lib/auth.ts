@@ -1,6 +1,6 @@
-import { TypeUser } from "@/types/types";
+import { TypeUser, AuthContextType } from "@/types/types";
 
-export async function authRequest(route: string, data: TypeUser): Promise<{ ok: boolean; message?: string, token?: string }> {
+export async function authRequest(route: string, data: TypeUser): Promise<{ ok: boolean; message: string, user?:AuthContextType }> {
   try {
     let send_data;
     if (route === "register") {
@@ -31,7 +31,10 @@ export async function authRequest(route: string, data: TypeUser): Promise<{ ok: 
     return {
       ok: res.ok,
       message: res.ok ? "Success!" : res_json.message || "Error",
-      token:res_json.access_token
+      user:{
+        username:data.username,
+        token:res_json.access_token
+      }
     };
   } catch (err) {
     console.error(err);

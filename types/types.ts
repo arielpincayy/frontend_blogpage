@@ -9,3 +9,8 @@ export type TypeUser = {
 export type SignProps = {
     handleFormType: () => void;
 };
+
+export type AuthContextType = {
+  username:string,
+  token:string
+}

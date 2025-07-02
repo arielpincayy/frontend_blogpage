@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import MenuBar from "@/components/MenuBar";
+import { UserProvider } from "@/components/context/AuthContext";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -23,14 +24,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <div className="min-h-screen bg-white">
-          <MenuBar />
-          {children}
-        </div>
-      </body>
+      <UserProvider>
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+          <div className="min-h-screen bg-white">
+            <MenuBar />
+            {children}
+          </div>
+        </body>
+      </UserProvider>
     </html>
   );
 }

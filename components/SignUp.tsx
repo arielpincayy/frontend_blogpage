@@ -11,6 +11,7 @@ import { useState } from "react";
 import { authRequest } from "@/lib/auth";
 
 import { SignProps, TypeUser } from "@/types/types";
+import { useUser } from "./context/AuthContext";
 
 type TypeSignUpFormValues = TypeUser & {
   confirmPassword: string;
@@ -20,6 +21,8 @@ export default function SignUp({ handleFormType}: SignProps) {
     const { register, handleSubmit, formState: { errors }, watch } = useForm<TypeSignUpFormValues>();
     const [checkbox, setCheckbox] = useState(false);
     const [issubmitting, setissubmitting] = useState(false);
+
+    const {user, setUser} = useUser();
     
     const handleCheckboxChange = (value: boolean) => {
         setCheckbox(value);
@@ -39,6 +42,10 @@ export default function SignUp({ handleFormType}: SignProps) {
     const onSubmit: SubmitHandler<TypeSignUpFormValues> = async(data) => {
         setissubmitting(true);
         const res = await authRequest('register',data);
+        if(res.user){
+            sessionStorage.setItem('user_stored',JSON.stringify(res.user));
+            setUser(res.user);
+        }
         setissubmitting(false);
     }
 
