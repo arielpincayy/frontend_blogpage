@@ -32,8 +32,8 @@ export default function MenuBar() {
                 {/* DESKTOP LINKS */}
                 <div className="hidden md:flex items-center space-x-4">
                   {user?
-                  <Link href="/profile" className="text-lg font-medium text-gray-900 hover:text-gray-600">
-                    Me
+                  <Link href="/dashboard" className="text-lg font-medium text-gray-900 hover:text-gray-600">
+                    Dashboard
                   </Link>:
                   <Link href="/signin" className="text-lg font-medium text-gray-900 hover:text-gray-600">
                     Sign in
@@ -60,8 +60,8 @@ export default function MenuBar() {
               {menuOpen && (
                 <div className="mt-4 flex flex-col items-center space-y-4 md:hidden">
                   {user?
-                  <Link href="/profile" className="text-lg font-medium text-gray-900 hover:text-gray-600">
-                    Me
+                  <Link href="/dashboard" className="text-lg font-medium text-gray-900 hover:text-gray-600">
+                    Dashboard
                   </Link>:
                   <Link href="/signin" className="text-lg font-medium text-gray-900 hover:text-gray-600">
                     Sign in

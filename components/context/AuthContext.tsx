@@ -3,10 +3,10 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
 import { AuthContextType } from "@/types/types";
 
-export const UserContext = createContext<{user:AuthContextType | undefined, setUser:(user:AuthContextType)=>void}>({user:undefined, setUser: ()=>{}});
+export const UserContext = createContext<{user:AuthContextType | undefined, setUser:(user:AuthContextType|undefined)=>void}>({user:undefined, setUser: ()=>{}});
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-    const [user, setUser] = useState<AuthContextType>();
+    const [user, setUser] = useState<AuthContextType|undefined>(undefined);
 
     useEffect(()=>{
         const user_stored_raw = sessionStorage.getItem('user_stored');
