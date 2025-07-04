@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-
+import {toast} from "react-toastify";
 import SignUp from "@/components/SignUp";
 import SignIn from "@/components/SingIn";
 
@@ -37,6 +37,7 @@ export default function SignUpPage() {
       console.log(send_data);
 
       const res = await fetch(`http://localhost:5000/auth/${route}`,{
+
         method:'POST',
         headers:{
           'Content-Type':'application/json'
@@ -45,15 +46,19 @@ export default function SignUpPage() {
       })
 
       if(!res.ok){
-        const err_message = res.json();
-        console.log(err_message);
+        const err_message = await res.json();
+        toast.error(err_message.message || "Wrong credentials or user already exists");
       }else{
-        console.log("Succesfull user register!!!");
-        window.location.href = '/';
+
+        toast.success("Authentication successful!");
+        setTimeout(() => {
+          window.location.href = '/';
+        },1500);
       }
 
     }catch(err){
-      console.log(err);
+      toast.error("An error occurred during authentication. Please try again.");
+      console.error("Authentication error:", err);
     }
   }
 
@@ -70,7 +75,7 @@ export default function SignUpPage() {
               </svg>
             </div>
           </div>
-          {formtype? <SignIn handleFormType={handleFormType}/> : <SignUp handleFormType={handleFormType}/>}
+          {formtype ? <SignIn handleFormType={handleFormType} authentication={authentication} />  : <SignUp handleFormType={handleFormType} authentication={authentication} />}
         </div>
       </main>
     </>

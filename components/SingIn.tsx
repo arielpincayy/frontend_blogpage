@@ -10,14 +10,14 @@ import { authRequest } from "@/lib/auth";
 
 import { TypeUser, SignProps } from "@/types/types";
 
-export default function SignIn({handleFormType}: SignProps) {
+export default function SignIn({handleFormType,authentication}: SignProps) {
   const { register, handleSubmit, formState: { errors } } = useForm<TypeUser>();
   const [issubmitting, setissubmitting] = useState(false);
 
   const onSubmit: SubmitHandler<TypeUser> =async(data)=>{
     setissubmitting(true);
-    const res = await authRequest('login', data);
-    setissubmitting(false);
+    const res = await authentication('login', data);
+    setissubmitting(false);  
   }
 
   return (
@@ -38,7 +38,7 @@ export default function SignIn({handleFormType}: SignProps) {
               <Input
                 id="username"
                 type="text"
-                placeholder="john@example.com"
+                placeholder="john_doe"
                 className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 {...register("username", { required: "Username is required." })}
               />

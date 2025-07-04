@@ -16,7 +16,7 @@ type TypeSignUpFormValues = TypeUser & {
   confirmPassword: string;
 }
 
-export default function SignUp({ handleFormType}: SignProps) {
+export default function SignUp({ handleFormType,authentication}: SignProps) {
     const { register, handleSubmit, formState: { errors }, watch } = useForm<TypeSignUpFormValues>();
     const [checkbox, setCheckbox] = useState(false);
     const [issubmitting, setissubmitting] = useState(false);
@@ -38,7 +38,7 @@ export default function SignUp({ handleFormType}: SignProps) {
 
     const onSubmit: SubmitHandler<TypeSignUpFormValues> = async(data) => {
         setissubmitting(true);
-        const res = await authRequest('register',data);
+        await authentication("register",data);
         setissubmitting(false);
     }
 
@@ -55,7 +55,7 @@ export default function SignUp({ handleFormType}: SignProps) {
             <CardContent className="space-y-6">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                         <Label htmlFor="firstName" className="text-gray-700">
                             First name
@@ -73,7 +73,7 @@ export default function SignUp({ handleFormType}: SignProps) {
                         <Label htmlFor="username" className="text-gray-700">
                             Username
                         </Label>
-                    <Input id="username" placeholder="jhondoe" className="border-gray-300 focus:border-blue-500 focus:ring-blue-500" {...register("username", {required:"Email is required."})}/>
+                    <Input id="username" placeholder="jhon_doe" className="border-gray-300 focus:border-blue-500 focus:ring-blue-500" {...register("username", {required:"Email is required."})}/>
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="email" className="text-gray-700">

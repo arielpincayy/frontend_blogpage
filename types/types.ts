@@ -8,4 +8,6 @@ export type TypeUser = {
 
 export type SignProps = {
     handleFormType: () => void;
+    authentication: (route: string, data: TypeUser) => Promise<void>;
+
 };
