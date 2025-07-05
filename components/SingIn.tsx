@@ -9,15 +9,23 @@ import { useState } from "react";
 import { authRequest } from "@/lib/auth";
 
 import { TypeUser, SignProps } from "@/types/types";
+import { useUser } from "./context/AuthContext";
 
 export default function SignIn({handleFormType,authentication}: SignProps) {
   const { register, handleSubmit, formState: { errors } } = useForm<TypeUser>();
   const [issubmitting, setissubmitting] = useState(false);
 
+  const {user, setUser} = useUser();
+
   const onSubmit: SubmitHandler<TypeUser> =async(data)=>{
     setissubmitting(true);
-    const res = await authentication('login', data);
-    setissubmitting(false);  
+    const res = await authRequest('login',data);
+    if(res.user){
+      sessionStorage.setItem('user_stored',JSON.stringify(res.user));
+      setUser(res.user);
+    }
+    setissubmitting(false);
+    if(res.ok) window.location.href = '/';
   }
 
   return (
