@@ -7,26 +7,35 @@ import { Label } from "@/components/ui/label";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import { authRequest } from "@/lib/auth";
-
+import {toast} from "react-toastify";
 import { TypeUser, SignProps } from "@/types/types";
 import { useUser } from "./context/AuthContext";
 
-export default function SignIn({handleFormType,authentication}: SignProps) {
+export default function SignIn({handleFormType}: SignProps) {
   const { register, handleSubmit, formState: { errors } } = useForm<TypeUser>();
   const [issubmitting, setissubmitting] = useState(false);
 
   const {user, setUser} = useUser();
 
-  const onSubmit: SubmitHandler<TypeUser> =async(data)=>{
+  const onSubmit: SubmitHandler<TypeUser> = async (data) => {
     setissubmitting(true);
-    const res = await authRequest('login',data);
-    if(res.user){
-      sessionStorage.setItem('user_stored',JSON.stringify(res.user));
+    const res = await authRequest('login', data);
+    if (res.user) {
+      sessionStorage.setItem('user_stored', JSON.stringify(res.user));
       setUser(res.user);
     }
     setissubmitting(false);
-    if(res.ok) window.location.href = '/';
+
+    if (res.ok) {
+      toast.success(res.message);
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 1200);
+    } else {
+      toast.error(res.message);
+    }
   }
+
 
   return (
     <Card className="bg-white shadow-sm border border-gray-200">

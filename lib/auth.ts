@@ -30,7 +30,7 @@ export async function authRequest(route: string, data: TypeUser): Promise<{ ok: 
 
     return {
       ok: res.ok,
-      message: res.ok ? "Success!" : res_json.message || "Error",
+      message: res.ok ? res_json.message : res_json.error,
       user:{
         username:data.username,
         token:res_json.access_token

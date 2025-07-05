@@ -1,11 +1,8 @@
 'use client';
 
 import { useState } from "react";
-import {toast} from "react-toastify";
 import SignUp from "@/components/SignUp";
 import SignIn from "@/components/SingIn";
-
-import { TypeUser } from "@/types/types";
 
 
 export default function SignUpPage() {
@@ -14,52 +11,6 @@ export default function SignUpPage() {
 
   function handleFormType(){
     setFormtype(!formtype);
-  }
-  
-  async function authentication(route:string, data:TypeUser){
-    try{
-      let send_data;
-      if(route=='register'){
-        send_data = {
-          name:data.firstName,
-          last_name:data.lastName,
-          username:data.username,
-          email:data.email,
-          password_hash:data.password
-        }
-      }else{
-        send_data = {
-          username:data.username,
-          password_hash:data.password
-        }
-      }
-
-      console.log(send_data);
-
-      const res = await fetch(`http://localhost:5000/auth/${route}`,{
-
-        method:'POST',
-        headers:{
-          'Content-Type':'application/json'
-        },
-        body: JSON.stringify(send_data)
-      })
-
-      if(!res.ok){
-        const err_message = await res.json();
-        toast.error(err_message.message || "Wrong credentials or user already exists");
-      }else{
-
-        toast.success("Authentication successful!");
-        setTimeout(() => {
-          window.location.href = '/';
-        },1500);
-      }
-
-    }catch(err){
-      toast.error("An error occurred during authentication. Please try again.");
-      console.error("Authentication error:", err);
-    }
   }
 
   return (
@@ -75,7 +26,7 @@ export default function SignUpPage() {
               </svg>
             </div>
           </div>
-          {formtype ? <SignIn handleFormType={handleFormType} authentication={authentication} />  : <SignUp handleFormType={handleFormType} authentication={authentication} />}
+          {formtype ? <SignIn handleFormType={handleFormType} />  : <SignUp handleFormType={handleFormType} />}
         </div>
       </main>
     </>

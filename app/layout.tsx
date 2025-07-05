@@ -29,11 +29,12 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <div className="min-h-screen bg-white">
-          <MenuBar />
-          {children}
-        </div>
+      <UserProvider>
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+          <div className="min-h-screen bg-white">
+            <MenuBar />
+            {children}
+          </div>
         <ToastContainer
           position="top-right"
           autoClose={5000}
@@ -45,13 +46,6 @@ export default function RootLayout({
           draggable
           pauseOnHover
         />
-      </body>
-      <UserProvider>
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <div className="min-h-screen bg-white">
-            <MenuBar />
-            {children}
-          </div>
         </body>
       </UserProvider>
     </html>

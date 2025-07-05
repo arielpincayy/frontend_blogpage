@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import {useForm, SubmitHandler} from "react-hook-form";
+import {toast} from "react-toastify";
 import { useState } from "react";
 import { authRequest } from "@/lib/auth";
 
@@ -17,7 +18,7 @@ type TypeSignUpFormValues = TypeUser & {
   confirmPassword: string;
 }
 
-export default function SignUp({ handleFormType,authentication}: SignProps) {
+export default function SignUp({ handleFormType}: SignProps) {
     const { register, handleSubmit, formState: { errors }, watch } = useForm<TypeSignUpFormValues>();
     const [checkbox, setCheckbox] = useState(false);
     const [issubmitting, setissubmitting] = useState(false);
@@ -37,16 +38,23 @@ export default function SignUp({ handleFormType,authentication}: SignProps) {
         delete errors.confirmPassword;
     }
 
-    // Validate checkbox 
-
-    const onSubmit: SubmitHandler<TypeSignUpFormValues> = async(data) => {
+    const onSubmit: SubmitHandler<TypeUser> = async (data) => {
         setissubmitting(true);
-        const res = await authRequest('register',data);
-        if(res.user){
-            sessionStorage.setItem('user_stored',JSON.stringify(res.user));
-            setUser(res.user);
+        const res = await authRequest('register', data);
+        if (res.user) {
+          sessionStorage.setItem('user_stored', JSON.stringify(res.user));
+          setUser(res.user);
         }
         setissubmitting(false);
+  
+        if (res.ok) {
+          toast.success(res.message);
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 1200);
+        } else {
+          toast.error(res.message);
+        }
     }
 
     return (
