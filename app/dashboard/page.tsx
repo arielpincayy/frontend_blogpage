@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from "@/components/ui/button"
+import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
@@ -90,7 +91,7 @@ export default function Dashboard() {
           <div className="flex flex-row align-baseline gap-4">
             <Button>
               <Plus className="mr-2 h-4 w-4" />
-              Create new blog
+              <Link href="/dashboard/newBlog">Create new blog</Link>
             </Button>
             <Button variant="outline" className="ml-2" onClick={handleLogOut}>
                 <LogOut className="mr-2 h-4 w-4" />
