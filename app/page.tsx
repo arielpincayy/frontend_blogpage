@@ -4,6 +4,7 @@ import { ChevronRight } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 
+import GuideSection from "@/components/GuideSection";
 
 export default function BlogPlatform() {
   const blogPosts = [
@@ -40,10 +41,14 @@ export default function BlogPlatform() {
               <p className="text-center mx-auto md:mx-1 text-xl text-gray-600 max-w-md">
                 A modern platform for creating and reading blogs
               </p>
-              <div className="flex justify-center md:justify-start">
-                <Button className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-3 w-1/2 rounded-full text-lg">
+              <div className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-4">
+                <Button className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-6.5 rounded-full text-lg inline-flex justify-center items-center">
                   Create Blog
                 </Button>
+                <Link
+                  href="#guide"className="border  text-gray-900 hover:bg-gray-95 hover:text-gray-700 px-8 py-3 rounded-full text-lg inline-flex justify-center items-center transition-colors">
+                  Get Started
+                </Link>
               </div>
             </div>
           </div>
@@ -57,7 +62,10 @@ export default function BlogPlatform() {
           </div>
         </div>
       </section>
-
+      {/* Guide Section */}
+      <section id="guide" className="px-6 py-16 max-w-5xl mx-auto space-y-6">
+        <GuideSection />
+      </section>
       {/* Blog Posts Section */}
       <section className="px-6 py-10 max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { Button } from './ui/button';
-import { useState } from "react";
+import { useEffect,useState } from "react";
 import { Menu } from "lucide-react"; // ícono de hamburguesa
 import { useUser } from './context/AuthContext';
 
@@ -11,12 +11,20 @@ export default function MenuBar() {
 
     const [menuOpen, setMenuOpen] = useState(false);
     const {user, setUser} = useUser();
-    
+    const [scrolled, setScrolled] = useState(false);
+    useEffect(() => {
+      const handleScroll = () => {
+        setScrolled(window.scrollY > 0);
+      };
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     return(
         <>
-            <header className="px-6 py-4 max-w-7xl mx-auto">
+            <header className={`fixed top-0 w-full z-50 bg-white px-6 py-4 transition-shadow duration-300 ${scrolled ? 'shadow-md' : ''}`}>
+            <div className="max-w-7xl mx-auto flex items-center justify-between">
               {/* NAVIGATION */}
-              <div className="flex items-center justify-between">
                 <nav className="flex-1 flex justify-center gap-6 sm:justify-start">
                   <Link href="/" className="text-lg font-medium text-gray-900 hover:text-gray-600">
                     Home
@@ -76,6 +84,7 @@ export default function MenuBar() {
                 </div>
               )}
             </header>
+            <div className="pt-24"/>
         </>
     )
 }
