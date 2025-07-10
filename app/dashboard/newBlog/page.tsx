@@ -13,13 +13,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { blogSectionOptions } from "@/lib/utils";
+import { blogSectionOptions, randomID } from "@/lib/utils";
+import { uploadBlog } from "@/lib/render";
 
 import { BlogSectionType, ContentType, HeaderContentType } from "@/types/types";
 
 const defaultValue:BlogSectionType = blogSectionOptions[1].value;
 
 export default function NewBlog(){
+
+    // Title, keywords and all contents states
     const [headerContent, setHeaderContent] = useState<HeaderContentType>(
         {
             title:"",
@@ -30,12 +33,11 @@ export default function NewBlog(){
         [{
             typeContent:defaultValue,
             content:"",
-            id:crypto.randomUUID()
+            id:randomID()
         }]
     );
 
-    const onRender=()=>console.log({headerContent, content});
-    
+    const onUpload=()=>uploadBlog(content, headerContent);
 
     return(
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -61,27 +63,30 @@ export default function NewBlog(){
                 })
             }
             <div className="w-[90%] mx-auto flex flex-row gap-4 items-center justify-center md:items-start md:justify-start">
-                <Button onClick={onRender}>Render</Button>
-                <Button className="bg-green-600">Upload</Button>
+                <Button>Render</Button>
+                <Button className="bg-green-600" onClick={onUpload}>Upload</Button>
             </div>
         </main>
     );
 }
 
+// Section for content
 function SectionWrite({content, setContent, id}:
     {content:ContentType[], setContent:React.Dispatch<React.SetStateAction<ContentType[]>>, id:string}){
 
     const cont = content.find((e)=>e.id===id);
     const index = content.findIndex((e)=>e.id===id);
 
+    // Add a new content section in a specific position
     const addSectionContent=(sel:BlogSectionType)=>{
         setContent((prev)=>[
             ...prev.slice(0, index + 1),
-            {typeContent:sel,content:"",id:crypto.randomUUID()},
+            {typeContent:sel,content:"",id:randomID()},
             ...prev.slice(index+1)
         ]);
     }
-
+    
+    // Modify content according to its id 
     const modifySelectionContent=(sel:BlogSectionType)=>{
         setContent((prev)=>
             prev.map(section=>
@@ -90,7 +95,8 @@ function SectionWrite({content, setContent, id}:
             )
         );
     }
-
+    
+    // Removes content according to its id
     const removeSectionContent=()=>{
         setContent((prev)=>{
             if(prev.length == 1) return prev;

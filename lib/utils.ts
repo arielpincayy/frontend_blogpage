@@ -15,3 +15,4 @@ export const blogSectionOptions: { label: string; value: BlogSectionType }[] = [
   { label: "PDF", value: "pdf" },
 ];
 
+export const randomID =()=> Date.now().toString(36) + Math.random().toString(36).substring(2, 10);

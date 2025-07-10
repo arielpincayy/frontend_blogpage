@@ -1,5 +1,7 @@
 import { TypeUser, AuthContextType } from "@/types/types";
 
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export async function authRequest(route: string, data: TypeUser): Promise<{ ok: boolean; message: string, user?:AuthContextType }> {
   try {
     let send_data;
@@ -18,7 +20,7 @@ export async function authRequest(route: string, data: TypeUser): Promise<{ ok: 
       };
     }
 
-    const res = await fetch(`http://localhost:5000/auth/${route}`, {
+    const res = await fetch(`${NEXT_PUBLIC_API_URL}/auth/${route}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
