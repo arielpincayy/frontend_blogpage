@@ -13,10 +13,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { blogSectionOptions, randomID } from "@/lib/utils";
+import { blogSectionOptions, randomID, Status } from "@/lib/utils";
 import { uploadBlog } from "@/lib/render";
 
-import { BlogSectionType, ContentType, HeaderContentType } from "@/types/types";
+import { BlogSectionType, ContentType, HeaderContentType, StatusType } from "@/types/types";
 
 const defaultValue:BlogSectionType = blogSectionOptions[1].value;
 
@@ -37,7 +37,7 @@ export default function NewBlog(){
         }]
     );
 
-    const onUpload=()=>uploadBlog(content, headerContent);
+    const onUpload=(status:StatusType)=>uploadBlog(content, headerContent, status);
 
     return(
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -63,8 +63,8 @@ export default function NewBlog(){
                 })
             }
             <div className="w-[90%] mx-auto flex flex-row gap-4 items-center justify-center md:items-start md:justify-start">
-                <Button>Render</Button>
-                <Button className="bg-green-600" onClick={onUpload}>Upload</Button>
+                <Button onClick={()=>onUpload(Status.DRAFT)}>Save</Button>
+                <Button className="bg-green-600" onClick={()=>onUpload(Status.WAITING)}>Upload</Button>
             </div>
         </main>
     );

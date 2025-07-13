@@ -35,7 +35,8 @@ export async function authRequest(route: string, data: TypeUser): Promise<{ ok: 
       message: res.ok ? res_json.message : res_json.error,
       user:{
         username:data.username,
-        token:res_json.access_token
+        user_id:res_json.user_id,
+        token:res_json.access_token,
       }
     };
   } catch (err) {
