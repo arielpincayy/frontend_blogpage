@@ -18,7 +18,7 @@ export type AuthContextType = {
   token:string
 }
 
-export type BlogSectionType = "subtitle" | "text" | "latex" | "image" | "pdf";
+export type BlogSectionType = "subtitle" | "text" | "latex" | "image" | "pdf" | "code";
 export type StatusType = "DRAFT" | "WAITING" | "PUBLISHED" | "REFUSED";
 export type StatusValue = (typeof Status)[StatusType];
 

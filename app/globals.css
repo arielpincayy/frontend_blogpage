@@ -1,5 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import 'katex/dist/katex.min.css';
+@import 'prism-themes/themes/prism-one-dark.min.css'; 
+
+
 
 @custom-variant dark (&:is(.dark *));
 

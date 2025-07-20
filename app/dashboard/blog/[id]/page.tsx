@@ -8,6 +8,10 @@ import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import { mdxComponents } from "@/components/MDXComponents";
 import { useParams } from "next/navigation";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import rehypePrism from "rehype-prism-plus";
+
 
 type PostData = {
   title: string;
@@ -38,12 +42,17 @@ export default function BlogPost() {
         if (!mdxRes.ok) throw new Error("No se pudo cargar el archivo MDX");
 
         const mdxText = await mdxRes.text();
-        const serialized = await serialize(mdxText);
+        const serialized = await serialize(mdxText, {
+          mdxOptions:{
+            remarkPlugins: [remarkMath],
+            rehypePlugins: [rehypeKatex, rehypePrism]
+          }
+        });
         setMdxSource(serialized);
       })
       .catch(err => {
         console.error(err);
-        setError("Error al cargar el blog.");
+        setError("Error loading blog.");
       });
   }, [user]);
 

@@ -32,33 +32,6 @@ async function uploadAsset(blogTitle: string, number: string, content: ContentTy
   content.content = result.url;
 }
 
-// Converts blog content and metadata into MDX format string
-function contentToMDX(content: ContentType[], header: HeaderContentType) {
-  const frontmatter = `---
-# ${header.title}
-keywords: ${header.keywords.map(k => `"${k}"`).join(", ")}
----`;
-
-  const body = content.map((section) => {
-    if (section.typeContent === 'image' || section.typeContent === 'pdf') {
-      // Handle file-based content with MDX-compatible syntax
-      if (section.typeContent === "image") return `![imagen](${section.content})`;
-      if (section.typeContent === "pdf") return `<PDF src="${section.content}" />`;
-    } else {
-      // Handle textual content (subtitle, paragraph, LaTeX math)
-      switch (section.typeContent) {
-        case "subtitle": return `## ${section.content}`;
-        case "text": return section.content;
-        case "latex": return `$$${section.content}$$`;
-        default: return "";
-      }
-    }
-    return "";
-  }).join("\n\n");
-
-  return `${frontmatter}\n\n${body}`;
-}
-
 // Sends blog metadata (title and tags) to the backend to create a new post record
 async function PostInfoBlog(header: HeaderContentType, url:string, status:StatusType) {
   const body = {
@@ -83,17 +56,23 @@ async function PostInfoBlog(header: HeaderContentType, url:string, status:Status
   }
 }
 
-// Uploads the generated MDX file to the server
-async function UploadMDX(content: ContentType[], header: HeaderContentType) {
-  const mdxContent = contentToMDX(content, header);
+// Uploads JSON to the server
+async function UploadJson(content: ContentType[], header: HeaderContentType){
+  const blog_name = header.title;
+  const fileName = blog_name.replace(/\s+/g, "-").toLowerCase() + ".json";
 
-  const file = new File([mdxContent], "blog.mdx", { type: "text/mdx" });
+  const jsonBlob = new Blob(
+    [JSON.stringify({ header, content }, null, 2)],
+    { type: "application/json" }
+  );
+
+  const jsonFile = new File([jsonBlob], fileName, { type: "application/json" });
 
   const formData = new FormData();
-  formData.append("blog_name", header.title);
-  formData.append("mdx", file);
+  formData.append("blog_name", blog_name);
+  formData.append("json", jsonFile);
 
-  const response = await fetch(`${NEXT_PUBLIC_API_URL}/upload/mdx`, {
+  const response = await fetch(`${NEXT_PUBLIC_API_URL}/upload/json`, {
     method: "POST",
     body: formData,
     headers: {
@@ -106,8 +85,9 @@ async function UploadMDX(content: ContentType[], header: HeaderContentType) {
     throw new Error(`${err.error}:${err.details}`);
   }
 
-  return response.json()
+  return response.json();
 }
+
 
 // Master function that uploads all assets, the MDX file, and registers the blog post
 export async function uploadBlog(content: ContentType[], header: HeaderContentType, status:StatusType) {
@@ -120,7 +100,7 @@ export async function uploadBlog(content: ContentType[], header: HeaderContentTy
       }
     }
 
-    const response = await UploadMDX(content, header); // Upload MDX file with final links
+    const response = await UploadJson(content, header);  // Upload JSON with header and content
     await PostInfoBlog(header, response.url, status);          // Register blog post in database
   } catch (err) {
     console.error(err); // Capture and show any error in the whole process

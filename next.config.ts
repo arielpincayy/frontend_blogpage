@@ -1,8 +1,14 @@
 import type { NextConfig } from "next";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 import withMDX from "@next/mdx";
 
 const withMDXConfig = withMDX({
   extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [remarkMath],
+    rehypePlugins: [rehypeKatex]
+  }
 });
 
 const nextConfig: NextConfig = {

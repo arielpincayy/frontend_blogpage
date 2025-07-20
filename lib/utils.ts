@@ -13,6 +13,7 @@ export function cn(...inputs: ClassValue[]) {
 export const blogSectionOptions: { label: string; value: BlogSectionType }[] = [
   { label: "Subtitle", value: "subtitle" },
   { label: "Text", value: "text" },
+  { label: "Code", value: "code" },
   { label: "Latex", value: "latex" },
   { label: "Image", value: "image" },
   { label: "PDF", value: "pdf" },

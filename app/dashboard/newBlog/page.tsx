@@ -178,8 +178,15 @@ function RenderSection({sel, cont, setContent}:{sel:BlogSectionType, cont:Conten
       case "text":
         return <Textarea className="h-40" placeholder="Text" onChange={(e)=>handleChangeContent(e.target.value)} value={cont?.content as string}/>;
 
+      case "text":
+        return <Textarea className="h-40" placeholder="Text" onChange={(e)=>handleChangeContent(e.target.value)} value={cont?.content as string}/>;
+
+      case "code":
+        return <Textarea className="h-40" placeholder="Write code here..." onChange={(e)=>handleChangeContent(e.target.value)} value={cont?.content as string}/>;
+
       case "latex":
-        return <Textarea className="h-40" placeholder="Write an Latex equation here..." onChange={(e)=>handleChangeContent(e.target.value)} value={cont?.content as string}/>;
+        return <Textarea className="h-40" placeholder="Write Latex equation here..." onChange={(e)=>handleChangeContent(e.target.value)} value={cont?.content as string}/>;
+
 
       case "image":
       return (
