@@ -10,6 +10,7 @@ type Props = {
 };
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL; 
+const NEXT_PUBLIC_PAGE_URL = process.env.NEXT_PUBLIC_PAGE_URL;
 
 export async function generateMetadata({ params }: Props) {
   const {name} = await params;
@@ -28,11 +29,11 @@ export async function generateMetadata({ params }: Props) {
     openGraph: {
       title: frontmatter.title,
       description: frontmatter.description || "",
-      url: `http:192.168.0.116:3000/blog/${name}`,
+      url: `${NEXT_PUBLIC_PAGE_URL}/blog/${name}`,
       type: "article"
     },
     alternates: {
-      canonical: `http:192.168.0.116:3000/blog/${name}`
+      canonical: `${NEXT_PUBLIC_PAGE_URL}/blog/${name}`
     }
   };
 }
