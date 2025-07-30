@@ -30,7 +30,8 @@ export default function Dashboard() {
           .then(data=>setPosts(data))
           .catch(error=>setErr(error.message))
           .finally(()=>setLoading(false))
-      }
+      };
+      
     },[user])
 
   return (

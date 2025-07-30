@@ -75,10 +75,6 @@ export default function StatsCards({posts, setPosts}:{posts:PostType[], setPosts
                       </TableCell>
                       <TableCell className="font-medium text-gray-900"><Link href={`/dashboard/blog/${post.id}`}>Visit</Link></TableCell>
                       <TableCell className="text-right">
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-gray-100">
-                          <Edit className="h-4 w-4 text-gray-600" />
-                          <span className="sr-only">Edit blog</span>
-                        </Button>
                         <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-gray-100" onClick={()=>removeBlog(post.id, setPosts)}>
                           <Trash className="h-4 w-4 text-red-700" />
                           <span className="sr-only">Remove blog blog</span>
